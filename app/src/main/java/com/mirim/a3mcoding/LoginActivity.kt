@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mirim.a3mcoding.databinding.ActivityLoginBinding
 import com.mirim.a3mcoding.model.User
+import com.mirim.a3mcoding.model.app
 import com.mirim.a3mcoding.network.RetrofitClient
 import com.mirim.a3mcoding.server.request.LoginRequest
 import com.mirim.a3mcoding.server.response.LoginResponse
@@ -62,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
             focusView?.requestFocus()
         }
         else {
-            startLogin(LoginRequest(inputEmail, inputPassword))
+            startLogin(LoginRequest(userEmail = inputEmail, userPw = inputPassword))
         }
     }
     fun startLogin(data: LoginRequest) {
@@ -71,20 +72,22 @@ class LoginActivity : AppCompatActivity() {
                 Log.d("LoginActivity", response.toString())
                 if(response.code() == 200) {
                     val result = response.body()
-
-                    User.step = result?.step
-                    User.name = result?.name
-                    User.joinData = result?.date?.substring(0, 10)
-                    User.rank = result?.rank
-                    User.email = data.userEmail
-                    User.student_num = result?.student_num
-
+                    val user = User(
+                        stage = result?.data?.stage,
+                        email = result?.data?.email,
+                        student_num = result?.data?.student_num,
+                        name = result?.data?.name,
+                        solve_count = result?.data?.solve_count
+                    )
+                    app.user = user
                     startActivity(Intent(applicationContext, MainActivity::class.java))
                 }
+                Toast.makeText(applicationContext, response.body()?.message, Toast.LENGTH_SHORT).show()
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Toast.makeText(applicationContext, "인터넷 연결이 필요합니다.", Toast.LENGTH_SHORT).show()
+                Log.d("LoginActivity-fail", t.toString())
             }
 
         })

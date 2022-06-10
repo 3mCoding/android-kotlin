@@ -8,8 +8,5 @@ class LoginRequest(
 
     @SerializedName("password")
     var userPw: String?,
-
-    @SerializedName("step")
-    var userStep:Int = 1
 ) {
 }

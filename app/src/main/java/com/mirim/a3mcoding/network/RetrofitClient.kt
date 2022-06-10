@@ -1,7 +1,6 @@
 package com.mirim.a3mcoding.network
 
-import com.google.gson.GsonBuilder
-import com.mirim.a3mcoding.NullOnEmptyConverter
+import com.mirim.a3mcoding.server.NullOnEmptyConverter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

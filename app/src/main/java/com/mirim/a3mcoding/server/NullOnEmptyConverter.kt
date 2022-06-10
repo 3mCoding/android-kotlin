@@ -1,4 +1,4 @@
-package com.mirim.a3mcoding
+package com.mirim.a3mcoding.server
 
 import okhttp3.ResponseBody
 import retrofit2.Converter

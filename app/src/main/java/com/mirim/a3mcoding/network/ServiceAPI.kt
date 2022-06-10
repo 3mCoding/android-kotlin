@@ -9,13 +9,13 @@ import retrofit2.http.*
 
 interface ServiceAPI {
     // 회원가입
-    @POST("/user/join")
+    @POST("/users/join")
     fun userJoin(
         @Body data: JoinRequest
     ): Call<JoinResponse>
 
     // 로그인
-    @POST("/user/login")
+    @POST("/users/login")
     fun userLogin(
         @Body data: LoginRequest
     ): Call<LoginResponse>
