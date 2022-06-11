@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 class JoinRequest(
     @SerializedName("student_num")
-    var stuNum: String?,
+    var userStudentNum: String?,
 
     @SerializedName("name")
     val userName: String?,

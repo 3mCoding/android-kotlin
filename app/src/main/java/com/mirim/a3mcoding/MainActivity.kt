@@ -17,5 +17,9 @@ class MainActivity : AppCompatActivity() {
         binding.btnUser.setOnClickListener {
             startActivity(Intent(applicationContext, MyPageActivity::class.java))
         }
+
+        binding.btnProblem.setOnClickListener {
+
+        }
     }
 }
