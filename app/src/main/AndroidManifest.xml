@@ -13,7 +13,13 @@
         android:theme="@style/Theme.3mCoding"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".LoginActivity"
+            android:name=".view.ProblemAllActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.ProblemActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,15 +28,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".JoinActivity"
+            android:name=".view.JoinActivity"
             android:exported="false" />
         <activity
-            android:name=".MyPageActivity"
+            android:name=".view.MyPageActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="false">
-        </activity>
+            android:name=".view.MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

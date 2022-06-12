@@ -1,4 +1,4 @@
-package com.mirim.a3mcoding
+package com.mirim.a3mcoding.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -99,6 +99,7 @@ class JoinActivity : AppCompatActivity() {
                     )
                     app.user = user
                     startActivity(Intent(applicationContext, MainActivity::class.java))
+                    finish()
                 }
                 Toast.makeText(applicationContext, response.body()?.message, Toast.LENGTH_SHORT).show()
             }

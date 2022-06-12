@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".view.MainActivity"
     android:orientation="vertical"
     android:weightSum="7">
 
@@ -34,10 +34,10 @@
                 android:id="@+id/btnProblem"
                 android:layout_marginTop="10dp"
                 android:textSize="20sp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
                 android:textColor="#fff"
                 android:textStyle="bold"
                 android:background="@drawable/button_main_problem"
@@ -63,100 +63,47 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_weight="3">
-        <HorizontalScrollView
+        <LinearLayout
+            android:background="@drawable/linear_background_white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:elevation="7dp"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/txt_current_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="단계별로 이어서 풀기"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txt_current_problem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="00번 - 무슨무슨문제"
+                android:textColor="@color/main"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scrollbars="none"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:overScrollMode="never">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:elevation="7dp">
-                <LinearLayout
-                    android:background="@drawable/linear_background_white"
-                    android:layout_width="315dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginRight="7dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="7dp"
-                    android:elevation="7dp"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:id="@+id/txt_current_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="단계별로 이어서 풀기"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txt_current_problem"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:text="00번 - 무슨무슨문제"
-                        android:textColor="@color/main"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="전체 문제 보기 >>"
-                        android:textColor="@color/gray"
-                        android:layout_marginTop="25dp"
-                        android:textSize="15sp"
-                        android:layout_alignParentBottom="true"/>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:background="@drawable/linear_background_white"
-                    android:layout_width="315dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:elevation="7dp"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginRight="7dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="7dp"
-                    android:padding="10dp">
-                    <TextView
-                        android:id="@+id/txt_random_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="난이도별 랜덤 문제"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txt_random_problem"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:text="00번 - 무슨무슨문제"
-                        android:textColor="@color/main"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="전체 문제 보기 >>"
-                        android:textColor="@color/gray"
-                        android:layout_marginTop="25dp"
-                        android:textSize="15sp"
-                        android:layout_alignParentBottom="true"/>
-
-                </LinearLayout>
-            </LinearLayout>
-        </HorizontalScrollView>
+            android:text="전체 문제 보기 >>"
+            android:textColor="@color/gray"
+            android:layout_marginTop="12dp"
+            android:textSize="15sp"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/btn_problem_all"
+            android:layout_marginLeft="20dp" />
         <LinearLayout
             android:background="@drawable/linear_background_white"
             android:layout_width="match_parent"
@@ -164,15 +111,15 @@
             android:layout_weight="4"
             android:orientation="vertical"
             android:elevation="7dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="15dp"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:padding="10dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="미림인 순위 >> "
+                android:text="미림인 순위"
                 android:textStyle="bold"
                 android:textSize="15sp"
                 android:id="@+id/btn_student"

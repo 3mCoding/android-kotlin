@@ -1,4 +1,4 @@
-package com.mirim.a3mcoding
+package com.mirim.a3mcoding.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
