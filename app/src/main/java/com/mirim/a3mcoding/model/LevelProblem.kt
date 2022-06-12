@@ -43,9 +43,17 @@ class LevelProblem(
     companion object {
         fun levelKoreanConverter (level: String?) : String {
             return when(level) {
-                "0" -> "쉬운맛"
+                "0" -> "순한맛"
                 "1" -> "중간맛"
                 else -> "매운맛"
+            }
+        }
+
+        fun levelStringConverter(level: String) : String {
+            return when(level) {
+                "순한맛" -> "0"
+                "중간맛" -> "1"
+                else -> "2"
             }
         }
     }

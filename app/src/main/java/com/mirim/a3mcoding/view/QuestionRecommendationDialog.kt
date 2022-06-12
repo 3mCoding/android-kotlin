@@ -2,12 +2,14 @@ package com.mirim.a3mcoding.view
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.mirim.a3mcoding.R
 import com.mirim.a3mcoding.databinding.DialogQuestionRecommendationBinding
+import com.mirim.a3mcoding.model.LevelProblem
 import kotlin.math.exp
 
 class QuestionRecommendationDialog : DialogFragment() {
@@ -26,10 +28,16 @@ class QuestionRecommendationDialog : DialogFragment() {
                 val expectMinutesInput = binding.editExpectMinutes.text.toString()
                 if(expectMinutesInput.isEmpty()) {
                     Toast.makeText(activity, "예상 소요 시간을 적어주세요", Toast.LENGTH_SHORT).show()
-
                 }
                 else {
                     val expectMinutes = Integer.parseInt(expectMinutesInput)
+                    val level = LevelProblem.levelStringConverter(binding.spinnerLevel.selectedItem.toString())
+                    val intent = Intent(context, ProblemActivity::class.java)
+                    intent.putExtra("problemType", "recommendation")
+                    intent.putExtra("time", expectMinutes)
+                    intent.putExtra("level", level)
+                    context?.startActivity(intent)
+
                     dialog?.dismiss()
                 }
             }

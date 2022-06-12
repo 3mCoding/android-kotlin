@@ -26,7 +26,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="~~~하라."
+            android:text=""
             android:textSize="15sp"
             android:textColor="@color/black"
             android:background="@drawable/background_linear_stroke"
@@ -54,7 +54,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="10\n20"
+            android:text=""
             android:textSize="15sp"
             android:textColor="@color/black"
             android:background="@drawable/background_linear_stroke"
@@ -83,7 +83,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="System.out.println();"
+            android:text=""
             android:textSize="15sp"
             android:textColor="@color/black"
             android:background="@drawable/background_linear_stroke"

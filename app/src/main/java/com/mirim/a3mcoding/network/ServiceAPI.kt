@@ -31,4 +31,24 @@ interface ServiceAPI {
     // 난이도별 문제 리스트
     @GET("/levels/list")
     fun getLevelList() : Call<LevelListResponse>
+
+    // 단계별 문제 상세 조회
+    @GET("/stages")
+    fun getStageProblem(
+        @Query("no") no: Int?,
+        @Query("type") type: Int?
+    ) : Call<StageProblemResponse>
+
+    // 난이도별 문제 상세 조회
+    @GET("/levels")
+    fun getLevelProblem(
+        @Query("id") id : Int?
+    ) : Call<LevelProblemResponse>
+
+    // 난이도별 문제 추천
+    @GET("/levels/suggestion")
+    fun getRecommendation(
+        @Query("level") level :String?,
+        @Query("time") time: Int?
+    ) : Call<LevelProblemResponse>
 }

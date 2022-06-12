@@ -1,6 +1,7 @@
 package com.mirim.a3mcoding.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,15 +9,23 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mirim.a3mcoding.R
 import com.mirim.a3mcoding.model.LevelProblem
+import com.mirim.a3mcoding.view.ProblemActivity
 
 class LevelProblemAdapter(val context: Context?, val problems: List<LevelProblem>?) : RecyclerView.Adapter<LevelProblemAdapter.ViewHolder>() {
     class ViewHolder(val view:View): RecyclerView.ViewHolder(view) {
         val txtProblemTitle = view.findViewById<TextView>(R.id.txt_problem_title)
         val txtLevel = view.findViewById<TextView>(R.id.txt_level)
 
-        fun bind(problem: LevelProblem?) {
+        fun bind(problem: LevelProblem?, context: Context?) {
             txtProblemTitle.text = problem?.title
             txtLevel.text = LevelProblem.levelKoreanConverter(problem?.level)
+
+            view.setOnClickListener {
+                val intent = Intent(context, ProblemActivity::class.java)
+                intent.putExtra("problemType", "level")
+                intent.putExtra("id", problem?.id)
+                context?.startActivity(intent)
+            }
         }
     }
 
@@ -26,7 +35,7 @@ class LevelProblemAdapter(val context: Context?, val problems: List<LevelProblem
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(problems?.get(position))
+        holder.bind(problems?.get(position), context)
     }
 
     override fun getItemCount(): Int {
