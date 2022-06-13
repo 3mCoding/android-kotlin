@@ -10,7 +10,7 @@ class StageProblem(
     val no: Int?,
 
     @SerializedName("type")
-    val type: String?,
+    var type: String = "0",
 
     @SerializedName("title")
     val title : String?,
@@ -39,4 +39,13 @@ class StageProblem(
     @SerializedName("updatedAt")
     val updatedAt: String?
 ) {
+    companion object {
+        fun typeNumberConverter(type: String) : String{
+            return when(type) {
+                "java" -> "0"
+                "C" -> "1"
+                else -> "2"
+            }
+        }
+    }
 }

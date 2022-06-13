@@ -2,6 +2,7 @@ package com.mirim.a3mcoding.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,6 @@ class StageProblemAdapter(val context: Context?, val problems: List<StageProblem
                 val intent = Intent(context, ProblemActivity::class.java)
                 intent.putExtra("problemType", "stage")
                 intent.putExtra("no", problem?.no)
-                intent.putExtra("type", problem?.type)
                 context?.startActivity(intent)
             }
         }

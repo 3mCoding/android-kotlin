@@ -1,8 +1,10 @@
 package com.mirim.a3mcoding.network
 
+import androidx.annotation.NonNull
 import com.mirim.a3mcoding.model.User
 import com.mirim.a3mcoding.server.request.JoinRequest
 import com.mirim.a3mcoding.server.request.LoginRequest
+import com.mirim.a3mcoding.server.request.StageSolveRequest
 import com.mirim.a3mcoding.server.response.*
 import retrofit2.Call
 import retrofit2.http.*
@@ -35,8 +37,8 @@ interface ServiceAPI {
     // 단계별 문제 상세 조회
     @GET("/stages")
     fun getStageProblem(
-        @Query("no") no: Int?,
-        @Query("type") type: Int?
+        @NonNull @Query("no") no: Int?,
+        @NonNull @Query("type") type: String
     ) : Call<StageProblemResponse>
 
     // 난이도별 문제 상세 조회
@@ -51,4 +53,10 @@ interface ServiceAPI {
         @Query("level") level :String?,
         @Query("time") time: Int?
     ) : Call<LevelProblemResponse>
+
+    // 단계별 문제 해결 후
+    @PUT("/stages/solve")
+    fun solveStage(
+        @Body body :StageSolveRequest
+    ) : Call<StageListResponse>
 }
