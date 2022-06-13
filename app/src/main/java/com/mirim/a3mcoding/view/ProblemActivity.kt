@@ -14,6 +14,7 @@ import com.mirim.a3mcoding.R
 import com.mirim.a3mcoding.adapter.ProblemAnswerAdapter
 import com.mirim.a3mcoding.databinding.ActivityProblemBinding
 import com.mirim.a3mcoding.model.LevelProblem
+import com.mirim.a3mcoding.model.Problem
 import com.mirim.a3mcoding.model.StageProblem
 import com.mirim.a3mcoding.model.app
 import com.mirim.a3mcoding.network.RetrofitClient
@@ -32,12 +33,12 @@ class ProblemActivity : AppCompatActivity() {
     var answerList = HashMap<Int, String>()
     lateinit var answers: List<String>
     var correct = true
-    var stageNumber = 0
     var type = "0"
     var no : Int? = 0
     var id: Int?  = 0
     var level: String? = ""
     var time: Int? = 0
+    var desc_path:String? = ""
 
     companion object {
         val TAG = "ProblemActivity"
@@ -67,10 +68,13 @@ class ProblemActivity : AppCompatActivity() {
 
 
         binding.btnSubmit.setOnClickListener {
+            correct = true
             Log.d(TAG, answerList.toString())
+            Log.d(TAG, answers.toString())
             for(i in 0 until answers.size) {
                 if(answerList.get(i) != answers[i]) {
                     correct = false
+                    break
                 }
             }
             if(correct) {
@@ -85,7 +89,11 @@ class ProblemActivity : AppCompatActivity() {
         }
 
         binding.btnDescription.setOnClickListener {
-            startActivity(Intent(applicationContext, DescriptionActivity::class.java))
+            val intent = Intent(applicationContext, DescriptionActivity::class.java)
+            intent.putExtra("title", binding.toolbar.textTitle.text)
+            intent.putExtra("problemType", problemType)
+            intent.putExtra("desc_path", desc_path)
+            startActivity(intent)
             finish()
         }
 
@@ -112,6 +120,7 @@ class ProblemActivity : AppCompatActivity() {
                 Log.d(TAG, response.body().toString())
                 if(response.raw().code() == 200) {
                     val stageProblem = response.body()?.data
+                    desc_path = stageProblem?.desc_path
                     binding.toolbar.textTitle.text = ""+stageProblem?.no + "번 - " + stageProblem?.title
                     binding.txtQuestion.text = stageProblem?.question
                     binding.txtPrint.text = stageProblem?.print
@@ -142,6 +151,7 @@ class ProblemActivity : AppCompatActivity() {
                 Log.d(TAG, response.body().toString())
                 if(response.raw().code() == 200) {
                     val levelProblem = response.body()?.data
+                    desc_path = levelProblem?.desc_path
                     binding.toolbar.textTitle.text = levelProblem?.title + " " + LevelProblem.levelKoreanConverter(levelProblem?.level)
                     binding.txtQuestion.text = levelProblem?.question
                     binding.txtPrint.text = levelProblem?.print
@@ -167,6 +177,7 @@ class ProblemActivity : AppCompatActivity() {
             ) {
                 Log.d(TAG, response.body().toString())
                 val levelProblem = response.body()?.data
+                desc_path = levelProblem?.desc_path
                 binding.toolbar.textTitle.text = levelProblem?.title + " " + LevelProblem.levelKoreanConverter(levelProblem?.level)
                 binding.txtQuestion.text = levelProblem?.question
                 binding.txtPrint.text = levelProblem?.print
@@ -184,20 +195,18 @@ class ProblemActivity : AppCompatActivity() {
     }
 
     fun solveStage() {
-        if(app.user.stage ==  no) {
-            RetrofitClient.serviceAPI.solveStage(StageSolveRequest(app.user.email)).enqueue(object : Callback<StageListResponse> {
-                override fun onResponse(
-                    call: Call<StageListResponse>,
-                    response: Response<StageListResponse>
-                ) {
-                    Log.d(TAG, response.toString())
-                }
+        RetrofitClient.serviceAPI.solveStage(StageSolveRequest(app.user.email)).enqueue(object : Callback<StageListResponse> {
+            override fun onResponse(
+                call: Call<StageListResponse>,
+                response: Response<StageListResponse>
+            ) {
+                Log.d(TAG+"solve", response.toString())
+            }
 
-                override fun onFailure(call: Call<StageListResponse>, t: Throwable) {
-                    Log.d(TAG, t.toString())
-                }
+            override fun onFailure(call: Call<StageListResponse>, t: Throwable) {
+                Log.d(TAG, t.toString())
+            }
 
-            })
-        }
+        })
     }
 }

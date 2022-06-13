@@ -22,9 +22,9 @@ class MainActivity : AppCompatActivity() {
         val TAG = "MainActivity"
     }
 
-    override fun onRestart() {
-        super.onRestart()
-        Log.d("MainActivity", "OnRestart")
+    override fun onResume() {
+        super.onResume()
+        Log.d("MainActivity", "OnResume")
         getStudentList()
         getCurrentStage()
     }
