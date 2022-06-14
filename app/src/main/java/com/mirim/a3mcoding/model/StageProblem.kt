@@ -13,13 +13,13 @@ class StageProblem(
     var type: String = "0",
 
     @SerializedName("title")
-    val title : String?,
+    val title: String?,
 
     @SerializedName("question")
-    val question : String?,
+    val question: String?,
 
     @SerializedName("print")
-    val print : String?,
+    val print: String?,
 
     @SerializedName("code")
     val code: String?,
@@ -31,7 +31,7 @@ class StageProblem(
     val answers: String?,
 
     @SerializedName("desc_path")
-    val desc_path : String?,
+    val desc_path: String?,
 
     @SerializedName("createdAt")
     val createdAt: String?,

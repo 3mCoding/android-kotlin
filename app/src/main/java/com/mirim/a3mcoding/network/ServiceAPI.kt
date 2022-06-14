@@ -37,8 +37,8 @@ interface ServiceAPI {
     // 단계별 문제 상세 조회
     @GET("/stages")
     fun getStageProblem(
-        @NonNull @Query("no") no: Int?,
-        @NonNull @Query("type") type: String
+        @Query("no") no: Int?,
+        @Query("type") type: String
     ) : Call<StageProblemResponse>
 
     // 난이도별 문제 상세 조회
