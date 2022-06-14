@@ -101,7 +101,9 @@ class JoinActivity : AppCompatActivity() {
                     startActivity(Intent(applicationContext, MainActivity::class.java))
                     finish()
                 }
-                Toast.makeText(applicationContext, response.body()?.message, Toast.LENGTH_SHORT).show()
+                else {
+                    Toast.makeText(applicationContext, response.raw().message(), Toast.LENGTH_SHORT).show()
+                }
             }
 
             override fun onFailure(call: Call<JoinResponse>, t: Throwable) {

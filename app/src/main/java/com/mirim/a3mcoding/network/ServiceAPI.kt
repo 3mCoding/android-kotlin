@@ -2,9 +2,7 @@ package com.mirim.a3mcoding.network
 
 import androidx.annotation.NonNull
 import com.mirim.a3mcoding.model.User
-import com.mirim.a3mcoding.server.request.JoinRequest
-import com.mirim.a3mcoding.server.request.LoginRequest
-import com.mirim.a3mcoding.server.request.StageSolveRequest
+import com.mirim.a3mcoding.server.request.*
 import com.mirim.a3mcoding.server.response.*
 import retrofit2.Call
 import retrofit2.http.*
@@ -31,8 +29,10 @@ interface ServiceAPI {
     fun getStageList() : Call<StageListResponse>
 
     // 난이도별 문제 리스트
-    @GET("/levels/list")
-    fun getLevelList() : Call<LevelListResponse>
+    @GET("/levels/list/{email}")
+    fun getLevelList(
+        @Path("email") email: String?
+    ) : Call<LevelListResponse>
 
     // 단계별 문제 상세 조회
     @GET("/stages")
@@ -58,5 +58,25 @@ interface ServiceAPI {
     @PUT("/stages/solve")
     fun solveStage(
         @Body body :StageSolveRequest
-    ) : Call<StageListResponse>
+    ) : Call<StageProblemResponse>
+
+     //난이도별 문제 해결 후
+    @PUT("/levels/solve")
+    fun solveLevel(
+        @Body body : LevelSolveRequest
+    ) : Call<LevelProblemResponse>
+
+    // 회원 정보 수정
+    @PUT("/users/{email}")
+    fun editProfile(
+        @Path("email") email: String?,
+        @Body body: EditProfileRequest
+    ) : Call<Response>
+
+    // 비밀번호 수정
+    @PUT("/users/password/{email}")
+    fun editPassword(
+        @Path("email") email:String?,
+        @Body body : EditPasswordRequest
+    ) : Call<Response>
 }

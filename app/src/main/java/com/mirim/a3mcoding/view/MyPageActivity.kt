@@ -1,5 +1,6 @@
 package com.mirim.a3mcoding.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.mirim.a3mcoding.databinding.ActivityMyPageBinding
@@ -20,12 +21,21 @@ class MyPageActivity : AppCompatActivity() {
         binding.txtSolvedCount.text = "푼 문제 갯수 : " + app.user.solve_count
 
         binding.btnEditProfile.setOnClickListener {
-
+            startActivity(Intent(applicationContext, ProfileEditActivity::class.java))
+            binding.txtName.text = app.user.student_num.toString() + " " + app.user.name
         }
         binding.btnEditPassword.setOnClickListener {
-
+            startActivity(Intent(applicationContext, EditPasswordActivity::class.java))
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        binding.txtName.text = app.user.student_num.toString() + " " + app.user.name
+    }
 
+    override fun onRestart() {
+        super.onRestart()
+        binding.txtName.text = app.user.student_num.toString() + " " + app.user.name
     }
 }

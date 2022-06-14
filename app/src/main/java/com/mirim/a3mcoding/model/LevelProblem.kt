@@ -30,6 +30,9 @@ class LevelProblem(
     @SerializedName("answers")
     val answers: String?,
 
+    @SerializedName("solved")
+    val solved: Int?,
+
     @SerializedName("desc_path")
     val desc_path: String?,
 

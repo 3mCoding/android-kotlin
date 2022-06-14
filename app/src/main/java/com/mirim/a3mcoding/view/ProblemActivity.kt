@@ -17,6 +17,7 @@ import com.mirim.a3mcoding.model.LevelProblem
 import com.mirim.a3mcoding.model.StageProblem
 import com.mirim.a3mcoding.model.app
 import com.mirim.a3mcoding.network.RetrofitClient
+import com.mirim.a3mcoding.server.request.LevelSolveRequest
 import com.mirim.a3mcoding.server.request.StageSolveRequest
 import com.mirim.a3mcoding.server.response.LevelProblemResponse
 import com.mirim.a3mcoding.server.response.StageListResponse
@@ -38,6 +39,8 @@ class ProblemActivity : AppCompatActivity() {
     var id: Int?  = 0
     var level: String? = ""
     var time: Int? = 0
+    var desc_path:String? = ""
+    var solved : Int? = 0
 
     companion object {
         val TAG = "ProblemActivity"
@@ -54,6 +57,7 @@ class ProblemActivity : AppCompatActivity() {
         id = intent.getIntExtra("id", 0)
         level = intent.getStringExtra("level")
         time = intent.getIntExtra("time", 1)
+        solved = intent.getIntExtra("solved", 0)
 
         when(problemType) {
             "stage" -> getStageProblem()
@@ -67,25 +71,44 @@ class ProblemActivity : AppCompatActivity() {
 
 
         binding.btnSubmit.setOnClickListener {
+            correct = true
             Log.d(TAG, answerList.toString())
             for(i in 0 until answers.size) {
                 if(answerList.get(i) != answers[i]) {
                     correct = false
                 }
             }
-            if(correct) {
-                Toast.makeText(applicationContext, "정답입니다.", Toast.LENGTH_SHORT).show()
-                binding.btnDescription.visibility = View.VISIBLE
-                binding.btnSubmit.visibility = View.INVISIBLE
-                app.user.solve_count = app.user.solve_count!! + 1
-                app.user.stage = app.user.stage!! + 1
-                solveStage();
+            when(problemType) {
+                "stage" -> {
+                    if(correct) {
+                        Toast.makeText(applicationContext, "정답입니다.", Toast.LENGTH_SHORT).show()
+                        binding.btnDescription.visibility = View.VISIBLE
+                        binding.btnSubmit.visibility = View.INVISIBLE
+                        solveStage();
+                        app.user.solve_count = app.user.solve_count!! + 1
+                        app.user.stage = app.user.stage!! + 1
+                    }
+                    else Toast.makeText(applicationContext, "틀렸습니다.", Toast.LENGTH_SHORT).show()
+                }
+                "level" -> {
+                    if(correct) {
+                        Toast.makeText(applicationContext, "정답입니다.", Toast.LENGTH_SHORT).show()
+                        binding.btnDescription.visibility = View.VISIBLE
+                        binding.btnSubmit.visibility = View.INVISIBLE
+                        app.user.solve_count = app.user.solve_count!! + 1
+                        solveLevel();
+                    }
+                    else Toast.makeText(applicationContext, "틀렸습니다.", Toast.LENGTH_SHORT).show()
+                }
             }
-            else Toast.makeText(applicationContext, "틀렸습니다.", Toast.LENGTH_SHORT).show()
         }
 
         binding.btnDescription.setOnClickListener {
-            startActivity(Intent(applicationContext, DescriptionActivity::class.java))
+            val intent = Intent(applicationContext, DescriptionActivity::class.java)
+            intent.putExtra("title", binding.toolbar.textTitle.text)
+            intent.putExtra("problemType", problemType)
+            intent.putExtra("desc_path", desc_path)
+            startActivity(intent)
             finish()
         }
 
@@ -93,7 +116,12 @@ class ProblemActivity : AppCompatActivity() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 type = StageProblem.typeNumberConverter(binding.spinnerLanguage.getItemAtPosition(p2).toString())
                 Log.d("spinnerLanguage", type)
-                getStageProblem()
+                when(problemType) {
+                    "stage" -> getStageProblem()
+                    "level" -> getLevelProblem()
+                    "recommendation" -> getRecommendationProblem()
+                }
+
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -112,6 +140,7 @@ class ProblemActivity : AppCompatActivity() {
                 Log.d(TAG, response.body().toString())
                 if(response.raw().code() == 200) {
                     val stageProblem = response.body()?.data
+                    desc_path = stageProblem?.desc_path
                     binding.toolbar.textTitle.text = ""+stageProblem?.no + "번 - " + stageProblem?.title
                     binding.txtQuestion.text = stageProblem?.question
                     binding.txtPrint.text = stageProblem?.print
@@ -142,6 +171,7 @@ class ProblemActivity : AppCompatActivity() {
                 Log.d(TAG, response.body().toString())
                 if(response.raw().code() == 200) {
                     val levelProblem = response.body()?.data
+                    desc_path = levelProblem?.desc_path
                     binding.toolbar.textTitle.text = levelProblem?.title + " " + LevelProblem.levelKoreanConverter(levelProblem?.level)
                     binding.txtQuestion.text = levelProblem?.question
                     binding.txtPrint.text = levelProblem?.print
@@ -149,6 +179,9 @@ class ProblemActivity : AppCompatActivity() {
                     binding.recyclerAnswer.layoutManager = LinearLayoutManager(applicationContext)
                     binding.recyclerAnswer.adapter = ProblemAnswerAdapter(applicationContext, levelProblem?.answer_count, answerList)
                     answers = levelProblem?.answers!!.split(".")
+                }
+                else {
+                    Toast.makeText(applicationContext, response.raw().message(), Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -166,14 +199,21 @@ class ProblemActivity : AppCompatActivity() {
                 response: Response<LevelProblemResponse>
             ) {
                 Log.d(TAG, response.body().toString())
-                val levelProblem = response.body()?.data
-                binding.toolbar.textTitle.text = levelProblem?.title + " " + LevelProblem.levelKoreanConverter(levelProblem?.level)
-                binding.txtQuestion.text = levelProblem?.question
-                binding.txtPrint.text = levelProblem?.print
-                binding.txtCode.text = levelProblem?.code
-                binding.recyclerAnswer.layoutManager = LinearLayoutManager(applicationContext)
-                binding.recyclerAnswer.adapter = ProblemAnswerAdapter(applicationContext, levelProblem?.answer_count, answerList)
-                answers = levelProblem?.answers!!.split(".")
+                if(response.raw().code() == 200) {
+                    val levelProblem = response.body()?.data
+                    solved = levelProblem?.solved
+                    desc_path = levelProblem?.desc_path
+                    binding.toolbar.textTitle.text = levelProblem?.title + " " + LevelProblem.levelKoreanConverter(levelProblem?.level)
+                    binding.txtQuestion.text = levelProblem?.question
+                    binding.txtPrint.text = levelProblem?.print
+                    binding.txtCode.text = levelProblem?.code
+                    binding.recyclerAnswer.layoutManager = LinearLayoutManager(applicationContext)
+                    binding.recyclerAnswer.adapter = ProblemAnswerAdapter(applicationContext, levelProblem?.answer_count, answerList)
+                    answers = levelProblem?.answers!!.split(".")
+                }
+                else {
+                    Toast.makeText(applicationContext, response.raw().message(), Toast.LENGTH_SHORT).show()
+                }
             }
 
             override fun onFailure(call: Call<LevelProblemResponse>, t: Throwable) {
@@ -185,19 +225,41 @@ class ProblemActivity : AppCompatActivity() {
 
     fun solveStage() {
         if(app.user.stage ==  no) {
-            RetrofitClient.serviceAPI.solveStage(StageSolveRequest(app.user.email)).enqueue(object : Callback<StageListResponse> {
+            RetrofitClient.serviceAPI.solveStage(StageSolveRequest(app.user.email)).enqueue(object : Callback<StageProblemResponse> {
                 override fun onResponse(
-                    call: Call<StageListResponse>,
-                    response: Response<StageListResponse>
+                    call: Call<StageProblemResponse>,
+                    response: Response<StageProblemResponse>
                 ) {
+                    Log.d("solveStage", "성공")
                     Log.d(TAG, response.toString())
                 }
 
-                override fun onFailure(call: Call<StageListResponse>, t: Throwable) {
+                override fun onFailure(call: Call<StageProblemResponse>, t: Throwable) {
                     Log.d(TAG, t.toString())
                 }
 
             })
         }
+        else {
+            Log.d("solveStage", "성공")
+        }
+    }
+    fun solveLevel() {
+        if(solved == 0) {
+            RetrofitClient.serviceAPI.solveLevel(LevelSolveRequest(app.user.email, id)).enqueue(object : Callback<LevelProblemResponse> {
+                override fun onResponse(
+                    call: Call<LevelProblemResponse>,
+                    response: Response<LevelProblemResponse>
+                ) {
+                    Log.d(TAG, response.toString())
+                }
+
+                override fun onFailure(call: Call<LevelProblemResponse>, t: Throwable) {
+                    Log.d(TAG, t.toString())
+                }
+
+            })
+        }
+
     }
 }

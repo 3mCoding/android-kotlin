@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mirim.a3mcoding.adapter.LevelProblemAdapter
 import com.mirim.a3mcoding.databinding.FragmentLevelProblemBinding
+import com.mirim.a3mcoding.model.app
 import com.mirim.a3mcoding.network.RetrofitClient
 import com.mirim.a3mcoding.server.response.LevelListResponse
 import retrofit2.Call
@@ -38,15 +39,17 @@ class LevelFragment : Fragment() {
     }
 
     fun getLevelProblemAll() {
-        RetrofitClient.serviceAPI.getLevelList().enqueue(object: Callback<LevelListResponse> {
+        RetrofitClient.serviceAPI.getLevelList(app.user.email).enqueue(object: Callback<LevelListResponse> {
             override fun onResponse(
                 call: Call<LevelListResponse>,
                 response: Response<LevelListResponse>
             ) {
                 Log.d(TAG, response.body().toString())
-                val problems = response.body()?.data
-                binding.recyclerLevelProblem.layoutManager = LinearLayoutManager(context)
-                binding.recyclerLevelProblem.adapter = LevelProblemAdapter(context, problems)
+                if(response.raw().code() == 200) {
+                    val problems = response.body()?.data
+                    binding.recyclerLevelProblem.layoutManager = LinearLayoutManager(context)
+                    binding.recyclerLevelProblem.adapter = LevelProblemAdapter(context, problems)
+                }
             }
 
             override fun onFailure(call: Call<LevelListResponse>, t: Throwable) {

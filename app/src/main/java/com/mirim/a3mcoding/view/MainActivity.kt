@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mirim.a3mcoding.adapter.UserRecyclerAdapter
 import com.mirim.a3mcoding.databinding.ActivityMainBinding
@@ -22,11 +23,11 @@ class MainActivity : AppCompatActivity() {
         val TAG = "MainActivity"
     }
 
-    override fun onRestart() {
-        super.onRestart()
+    override fun onResume() {
+        super.onResume()
         Log.d("MainActivity", "OnRestart")
-        getStudentList()
         getCurrentStage()
+        getStudentList()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,13 +79,18 @@ class MainActivity : AppCompatActivity() {
                 response: Response<StageProblemResponse>
             ) {
                 val result = response.body()
-                binding.txtCurrentProblem.text = ""+result?.data?.no + "번 - " +result?.data?.title
-                binding.txtCurrentProblem.setOnClickListener {
-                    val intent = Intent(applicationContext, ProblemActivity::class.java)
-                    intent.putExtra("problemType", "stage")
-                    intent.putExtra("no", result?.data?.no)
-                    intent.putExtra("type", result?.data?.type)
-                    startActivity(intent)
+                if(response.raw().code() == 200) {
+                    binding.txtCurrentProblem.text = ""+result?.data?.no + "번 - " +result?.data?.title
+                    binding.txtCurrentProblem.setOnClickListener {
+                        val intent = Intent(applicationContext, ProblemActivity::class.java)
+                        intent.putExtra("problemType", "stage")
+                        intent.putExtra("no", result?.data?.no)
+                        intent.putExtra("type", result?.data?.type)
+                        startActivity(intent)
+                    }
+                }
+               else {
+                   Toast.makeText(applicationContext, response.raw().message(), Toast.LENGTH_SHORT).show()
                 }
             }
 

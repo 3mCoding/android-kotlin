@@ -40,9 +40,11 @@ class StageFragment: Fragment() {
                 response: Response<StageListResponse>
             ) {
                 Log.d(TAG, response.body().toString())
-                val problems = response.body()?.data
-                binding.recyclerStageProblem.layoutManager = LinearLayoutManager(context)
-                binding.recyclerStageProblem.adapter = StageProblemAdapter(context, problems)
+                if(response.raw().code() == 200) {
+                    val problems = response.body()?.data
+                    binding.recyclerStageProblem.layoutManager = LinearLayoutManager(context)
+                    binding.recyclerStageProblem.adapter = StageProblemAdapter(context, problems)
+                }
             }
 
             override fun onFailure(call: Call<StageListResponse>, t: Throwable) {
