@@ -110,6 +110,9 @@ class ProblemActivity : AppCompatActivity() {
             finish()
         }
 
+        if(problemType != "stage") {
+            binding.spinnerLanguage.visibility = View.INVISIBLE
+        }
         binding.spinnerLanguage.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 type = StageProblem.typeNumberConverter(binding.spinnerLanguage.getItemAtPosition(p2).toString())
