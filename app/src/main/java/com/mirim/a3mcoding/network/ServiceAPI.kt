@@ -58,13 +58,13 @@ interface ServiceAPI {
     @PUT("/stages/solve")
     fun solveStage(
         @Body body :StageSolveRequest
-    ) : Call<StageProblemResponse>
+    ) : Call<SolveResponse>
 
      //난이도별 문제 해결 후
     @PUT("/levels/solve")
     fun solveLevel(
         @Body body : LevelSolveRequest
-    ) : Call<LevelProblemResponse>
+    ) : Call<SolveResponse>
 
     // 회원 정보 수정
     @PUT("/users/{email}")

@@ -20,6 +20,7 @@ import com.mirim.a3mcoding.network.RetrofitClient
 import com.mirim.a3mcoding.server.request.LevelSolveRequest
 import com.mirim.a3mcoding.server.request.StageSolveRequest
 import com.mirim.a3mcoding.server.response.LevelProblemResponse
+import com.mirim.a3mcoding.server.response.SolveResponse
 import com.mirim.a3mcoding.server.response.StageListResponse
 import com.mirim.a3mcoding.server.response.StageProblemResponse
 import retrofit2.Call
@@ -85,17 +86,14 @@ class ProblemActivity : AppCompatActivity() {
                         binding.btnDescription.visibility = View.VISIBLE
                         binding.btnSubmit.visibility = View.INVISIBLE
                         solveStage();
-                        app.user.solve_count = app.user.solve_count!! + 1
-                        app.user.stage = app.user.stage!! + 1
                     }
                     else Toast.makeText(applicationContext, "틀렸습니다.", Toast.LENGTH_SHORT).show()
                 }
-                "level" -> {
+                "level", "recommendation" -> {
                     if(correct) {
                         Toast.makeText(applicationContext, "정답입니다.", Toast.LENGTH_SHORT).show()
                         binding.btnDescription.visibility = View.VISIBLE
                         binding.btnSubmit.visibility = View.INVISIBLE
-                        app.user.solve_count = app.user.solve_count!! + 1
                         solveLevel();
                     }
                     else Toast.makeText(applicationContext, "틀렸습니다.", Toast.LENGTH_SHORT).show()
@@ -225,16 +223,18 @@ class ProblemActivity : AppCompatActivity() {
 
     fun solveStage() {
         if(app.user.stage ==  no) {
-            RetrofitClient.serviceAPI.solveStage(StageSolveRequest(app.user.email)).enqueue(object : Callback<StageProblemResponse> {
+            RetrofitClient.serviceAPI.solveStage(StageSolveRequest(app.user.email)).enqueue(object : Callback<SolveResponse> {
                 override fun onResponse(
-                    call: Call<StageProblemResponse>,
-                    response: Response<StageProblemResponse>
+                    call: Call<SolveResponse>,
+                    response: Response<SolveResponse>
                 ) {
                     Log.d("solveStage", "성공")
                     Log.d(TAG, response.toString())
+                    app.user.solve_count = response.body()?.solve_count
+                    app.user.stage = response.body()?.stage
                 }
 
-                override fun onFailure(call: Call<StageProblemResponse>, t: Throwable) {
+                override fun onFailure(call: Call<SolveResponse>, t: Throwable) {
                     Log.d(TAG, t.toString())
                 }
 
@@ -246,15 +246,18 @@ class ProblemActivity : AppCompatActivity() {
     }
     fun solveLevel() {
         if(solved == 0) {
-            RetrofitClient.serviceAPI.solveLevel(LevelSolveRequest(app.user.email, id)).enqueue(object : Callback<LevelProblemResponse> {
+            RetrofitClient.serviceAPI.solveLevel(LevelSolveRequest(app.user.email, id)).enqueue(object : Callback<SolveResponse> {
                 override fun onResponse(
-                    call: Call<LevelProblemResponse>,
-                    response: Response<LevelProblemResponse>
+                    call: Call<SolveResponse>,
+                    response: Response<SolveResponse>
                 ) {
                     Log.d(TAG, response.toString())
+                    app.user.solve_count = response.body()?.solve_count
+                    Log.d(TAG, app.user.solve_count.toString() )
+                    Log.d(TAG, response.body()?.solve_count.toString() )
                 }
 
-                override fun onFailure(call: Call<LevelProblemResponse>, t: Throwable) {
+                override fun onFailure(call: Call<SolveResponse>, t: Throwable) {
                     Log.d(TAG, t.toString())
                 }
 

@@ -17,7 +17,7 @@ import com.mirim.a3mcoding.model.app
 import com.mirim.a3mcoding.view.ProblemActivity
 
 class StageProblemAdapter(val context: Context?, val problems: List<StageProblem>?) : RecyclerView.Adapter<StageProblemAdapter.ViewHolder>() {
-    class ViewHolder(val view: View) : RecyclerView.ViewHolder(view){
+    class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val txtProblem = view.findViewById<TextView>(R.id.txt_problem)
 
         fun bind(problem: StageProblem?, context: Context?, position: Int) {

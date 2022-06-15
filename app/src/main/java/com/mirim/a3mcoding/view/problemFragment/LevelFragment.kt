@@ -3,12 +3,16 @@ package com.mirim.a3mcoding.view.problemFragment
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mirim.a3mcoding.adapter.LevelProblemAdapter
 import com.mirim.a3mcoding.databinding.FragmentLevelProblemBinding
+import com.mirim.a3mcoding.model.LevelProblem
 import com.mirim.a3mcoding.model.app
 import com.mirim.a3mcoding.network.RetrofitClient
 import com.mirim.a3mcoding.server.response.LevelListResponse
@@ -18,6 +22,7 @@ import retrofit2.Response
 
 class LevelFragment : Fragment() {
     lateinit var binding: FragmentLevelProblemBinding
+    var problems: List<LevelProblem>? = null
 
     companion object {
         val TAG = "LevelFragmet"
@@ -46,7 +51,7 @@ class LevelFragment : Fragment() {
             ) {
                 Log.d(TAG, response.body().toString())
                 if(response.raw().code() == 200) {
-                    val problems = response.body()?.data
+                    problems = response.body()?.data
                     binding.recyclerLevelProblem.layoutManager = LinearLayoutManager(context)
                     binding.recyclerLevelProblem.adapter = LevelProblemAdapter(context, problems)
                 }
@@ -57,5 +62,10 @@ class LevelFragment : Fragment() {
             }
 
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getLevelProblemAll()
     }
 }
