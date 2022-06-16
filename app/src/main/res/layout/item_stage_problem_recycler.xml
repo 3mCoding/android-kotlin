@@ -12,8 +12,7 @@
         android:textSize="18sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:text="00번 - 무슨무슨문제" />
+        app:layout_constraintLeft_toLeftOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

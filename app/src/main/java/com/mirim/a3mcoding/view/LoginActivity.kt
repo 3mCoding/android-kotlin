@@ -70,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
         RetrofitClient.serviceAPI.userLogin(data).enqueue(object: Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 Log.d("LoginActivity", response.toString())
-                if(response.code() == 200) {
+                if(response.raw().code() == 200) {
                     val result = response.body()
                     val user = User(
                         stage = result?.data?.stage,
@@ -80,16 +80,16 @@ class LoginActivity : AppCompatActivity() {
                         solve_count = result?.data?.solve_count
                     )
                     app.user = user
+                    Toast.makeText(applicationContext, response.body()?.result, Toast.LENGTH_SHORT).show()
                     startActivity(Intent(applicationContext, MainActivity::class.java))
                     finish()
-                }
-                else {
-                    Toast.makeText(applicationContext, response.raw().message(), Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(applicationContext, response.body()?.result, Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                Toast.makeText(applicationContext, "인터넷 연결이 필요합니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show()
                 Log.d("LoginActivity-fail", t.toString())
             }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">3mCoding</string>
+    <string name="app_name">3분 코딩</string>
     <string-array name="level">
         <item>순한맛</item>
         <item>중간맛</item>

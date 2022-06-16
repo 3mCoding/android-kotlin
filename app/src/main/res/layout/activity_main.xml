@@ -88,7 +88,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="00번 - 무슨무슨문제"
                 android:textColor="@color/main"
                 android:textSize="18sp"
                 android:textStyle="bold" />

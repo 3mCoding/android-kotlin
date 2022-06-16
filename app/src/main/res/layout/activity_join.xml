@@ -130,6 +130,7 @@
             android:layout_height="wrap_content"
             android:text="비밀번호" />
         <EditText
+            android:inputType="textPassword"
             android:id="@+id/edit_password"
             android:backgroundTint="#fff"
             android:layout_weight="1"
@@ -167,6 +168,7 @@
         </LinearLayout>
 
         <EditText
+            android:inputType="textPassword"
             android:id="@+id/edit_password_check"
             android:backgroundTint="#fff"
             android:layout_weight="1"
