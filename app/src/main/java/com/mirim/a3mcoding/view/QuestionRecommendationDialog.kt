@@ -43,6 +43,11 @@ class QuestionRecommendationDialog : DialogFragment() {
             }
 
             binding.btnSkip.setOnClickListener {
+                val intent = Intent(context, ProblemActivity::class.java)
+                intent.putExtra("problemType", "recommendation")
+                intent.putExtra("time", -1)
+                intent.putExtra("level", "-1")
+                context?.startActivity(intent)
                 dialog?.dismiss()
             }
 

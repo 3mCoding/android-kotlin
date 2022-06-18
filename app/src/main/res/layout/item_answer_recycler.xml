@@ -25,6 +25,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/txt_number"
         android:padding="5dp"
-        android:background="@drawable/background_edit_recommendation"/>
+        android:background="@drawable/background_edit_recommendation"
+        android:maxLines="1"
+        android:inputType="text"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
