@@ -30,7 +30,7 @@ class StageProblemAdapter(val context: Context?, val problems: List<StageProblem
                 txtProblem.setTypeface(Typeface.DEFAULT_BOLD);
             }
 
-            if(position+1 <= app.user.stage!!) {
+            if(position+1 < app.user.stage!!) {
                 view.setOnClickListener {
                     val intent = Intent(context, ProblemActivity::class.java)
                     intent.putExtra("problemType", "stage")
