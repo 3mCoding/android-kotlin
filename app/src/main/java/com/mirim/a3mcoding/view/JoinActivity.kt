@@ -98,11 +98,12 @@ class JoinActivity : AppCompatActivity() {
                         solve_count = result?.data?.solve_count
                     )
                     app.user = user
+                    Toast.makeText(applicationContext, "회원가입 되었습니다.", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(applicationContext, MainActivity::class.java))
                     finish()
                 }
                 else {
-                    Toast.makeText(applicationContext, response.raw().message(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
 

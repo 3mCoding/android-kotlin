@@ -80,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
                         solve_count = result?.data?.solve_count
                     )
                     app.user = user
-                    Toast.makeText(applicationContext, response.body()?.result, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "로그인 되었습니다.", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(applicationContext, MainActivity::class.java))
                     finish()
                 } else {
