@@ -84,7 +84,7 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(Intent(applicationContext, MainActivity::class.java))
                     finish()
                 } else {
-                    Toast.makeText(applicationContext, response.body()?.result, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,"로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
 

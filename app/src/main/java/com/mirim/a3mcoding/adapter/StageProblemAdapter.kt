@@ -22,8 +22,11 @@ class StageProblemAdapter(val context: Context?, val problems: List<StageProblem
 
         fun bind(problem: StageProblem?, context: Context?, position: Int) {
             txtProblem.text = ""+problem?.no + "번 - " + problem?.title
-            if(position+1 <= app.user.stage!!) {
+            if(position+1 < app.user.stage!!) {
                 txtProblem.setTextColor(ContextCompat.getColor(context!!, R.color.main));
+                txtProblem.setTypeface(Typeface.DEFAULT_BOLD);
+            }
+            else if(position+1 == app.user.stage!!) {
                 txtProblem.setTypeface(Typeface.DEFAULT_BOLD);
             }
 
